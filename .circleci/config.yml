@@ -17,6 +17,27 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+  
+  #These jobs are added based on the udacity excercise on creating Circle-Ci
+  print-hello:
+
+    docker:
+      - image: cimg/base:stable     
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello"
+
+  print-world:
+
+    docker:
+      - image: cimg/base:stable     
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo World!"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -24,3 +45,5 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+      - print-hello
+      - print-world
