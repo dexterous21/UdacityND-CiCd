@@ -60,7 +60,12 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+  hello-world-workflow:
+    jobs:
       - print-hello
       - print-world:
           requires: [print-hello]
-      - print-name
+  my-name-workflow:
+    jobs:
+      - print-name:
+          requires: []
