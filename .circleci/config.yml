@@ -44,13 +44,44 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      My_name: Idris-Aiyegusi
+      MY_NAME: Idris-Aiyegusi
     steps:
       - checkout
       - run:
           name: "my name"
           command: |
-            echo $My_name
+            echo $MY_NAME
+  
+# Udacity sharing file exercise  
+  save_hello_world_output:
+    working_directory: ~/project
+    docker:
+      - image: cimg/base:stable
+    
+    environment:
+      HELLO: "hello world"
+    steps:
+      - checkout
+      - run:
+          name: "sharing files exercise"
+          command: |
+            echo $HELLO > output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - "project"
+
+  print_output_file:
+    working_directory: ~/project
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "output of file sharing"
+          command: |
+            cat output.txt
 
          
 
@@ -67,5 +98,10 @@ workflows:
           requires: [print-hello]
   my-name-workflow:
     jobs:
-      - print-name:
-          requires: []
+      - print-name
+  sharing_output-workflow:
+    jobs:
+      - save_hello_world_output
+      - print_output_file: 
+          requires:
+            - "save_hello_world_output"
