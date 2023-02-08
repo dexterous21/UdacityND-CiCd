@@ -97,6 +97,18 @@ jobs:
     steps:
       - print_pipeline_id
 
+# simulating a an error code to trigger "when: on_fail"
+
+  error_impose:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: exit 1
+      - run: 
+          name: "Error ON"
+          command: echo "Hello Error !!!!"
+          when: on_fail
+
          
 
 # Invoke jobs via workflows
@@ -122,3 +134,7 @@ workflows:
   reusable_code-workflow:
     jobs:
       - my_jobs
+  error_displayed: 
+    jobs:
+      - error_impose
+
